@@ -1,5 +1,6 @@
 # vegeta report
 results.bin
+report.html
 
 # kind cluster
 local-cluster.yaml
@@ -7,3 +8,6 @@ local-cluster.yaml
 # go
 *.mod
 *.sum
+
+# graph
+*.svg
