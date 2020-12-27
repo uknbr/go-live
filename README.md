@@ -31,12 +31,16 @@ kubectl -n app apply -f deploy.yml
 
 ### Test
 
+![alt text](http_200.png "HTTPie 200")
+
 API load test with [Vegeta](https://github.com/tsenart/vegeta)
 
 ```bash
-echo "GET http://localhost/api/v1/info" | vegeta attack -rate=50/s -duration=15s | tee results.bin | vegeta report
+echo "GET http://localhost/api/v1/info" | vegeta attack -rate=100/s -duration=15s | tee results.bin | vegeta report
 cat results.bin | vegeta plot > report.html
 ```
+
+![alt text](vegeta.png "Vegeta Plot")
 
 ### CD
 
