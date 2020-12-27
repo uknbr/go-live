@@ -6,7 +6,7 @@ metadata:
   labels:
     app: go-live
 spec:
-  replicas: 5
+  replicas: 4
   selector:
     matchLabels:
       app: go-live
