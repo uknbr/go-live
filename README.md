@@ -61,4 +61,16 @@ kubectl patch deploy argocd-server -n argocd -p '[{"op": "add", "path": "/spec/t
 kubectl port-forward svc/argocd-server -n argocd 9999:80
 ````
 
+- CLI
+
+```terminal
+argocd login localhost:9999
+argocd cluster add kind-local
+argocd app list
+argocd app get go-live
+argocd app sync go-live
+```
+
+#### UI
+
 ![alt text](argo.png "ArgoCD")
