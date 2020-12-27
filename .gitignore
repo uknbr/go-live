@@ -1,0 +1,9 @@
+# vegeta report
+results.bin
+
+# kind cluster
+local-cluster.yaml
+
+# go
+*.mod
+*.sum
