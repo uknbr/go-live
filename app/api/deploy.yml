@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: go-live
-        image: localhost/go-live:0.0.3
+        image: localhost/go-live:0.0.4
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 8080

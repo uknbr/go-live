@@ -6,8 +6,8 @@ report.html
 local-cluster.yaml
 
 # go
-*.mod
-*.sum
+app/api/*.mod
+app/api/*.sum
 
 # graph
 *.svg

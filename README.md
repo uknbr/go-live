@@ -31,7 +31,7 @@ kubectl -n app apply -f deploy.yml
 
 ### Test
 
-![alt text](http_200.png "HTTPie 200")
+![alt text](images/http_200.png "HTTPie 200")
 
 API load test with [Vegeta](https://github.com/tsenart/vegeta)
 
@@ -40,7 +40,7 @@ echo "GET http://localhost/api/v1/info" | vegeta attack -rate=100/s -duration=15
 cat results.bin | vegeta plot > report.html
 ```
 
-![alt text](vegeta.png "Vegeta Plot")
+![alt text](images/vegeta.png "Vegeta Plot")
 
 ### CD
 
@@ -71,6 +71,6 @@ argocd app get go-live
 argocd app sync go-live
 ```
 
-#### UI
+- UI
 
-![alt text](argo.png "ArgoCD")
+![alt text](images/argo.png "ArgoCD")
