@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: playground
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io  
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: My own playground
+  destinations:
+  - namespace: app
+    server: https://kubernetes.default.svc
+  sourceRepos:
+  - '*'

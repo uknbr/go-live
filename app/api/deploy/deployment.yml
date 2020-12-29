@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-live
+  labels:
+    app: go-live
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: go-live
+  template:
+    metadata:
+      labels:
+        app: go-live
+    spec:
+      containers:
+      - name: go-live
+        image: localhost/go-live:0.0.4
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8080

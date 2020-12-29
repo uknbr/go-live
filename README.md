@@ -18,29 +18,9 @@
 3. Build & Load image
 
 ```bash
-make build
-
+cd app/api && make build
 kind --name local load docker-image localhost/go-live:0.0.4
 ```
-
-4. Deploy API
-
-```bash
-kubectl -n app apply -f deploy.yml
-```
-
-### Test
-
-![alt text](images/http_200.png "HTTPie 200")
-
-API load test with [Vegeta](https://github.com/tsenart/vegeta)
-
-```bash
-echo "GET http://localhost/api/v1/info" | vegeta attack -rate=100/s -duration=15s | tee results.bin | vegeta report
-cat results.bin | vegeta plot > report.html
-```
-
-![alt text](images/vegeta.png "Vegeta Plot")
 
 ### CD
 
@@ -61,16 +41,38 @@ kubectl patch deploy argocd-server -n argocd -p '[{"op": "add", "path": "/spec/t
 kubectl port-forward svc/argocd-server -n argocd 9999:80
 ````
 
+- Declarative
+
+```terminal
+kubectl apply -f cd/proj.yml
+kubectl apply -f cd/app-api.yml
+kubectl apply -f cd/app-echo.yml
+```
+
 - CLI
 
 ```terminal
 argocd login localhost:9999
 argocd cluster add kind-local
 argocd app list
-argocd app get go-live
-argocd app sync go-live
+argocd app get api
+argocd app sync api
 ```
 
 - UI
 
 ![alt text](images/argo.png "ArgoCD")
+
+
+### Test
+
+![alt text](images/http_200.png "HTTPie 200")
+
+API load test with [Vegeta](https://github.com/tsenart/vegeta)
+
+```bash
+echo "GET http://localhost/api/v1/info" | vegeta attack -rate=100/s -duration=15s | tee results.bin | vegeta report
+cat results.bin | vegeta plot > report.html
+```
+
+![alt text](images/vegeta.png "Vegeta Plot")

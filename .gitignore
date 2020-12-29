@@ -5,9 +5,5 @@ report.html
 # kind cluster
 local-cluster.yaml
 
-# go
-app/api/*.mod
-app/api/*.sum
-
 # graph
 *.svg

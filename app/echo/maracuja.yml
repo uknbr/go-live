@@ -20,7 +20,7 @@ spec:
         image: hashicorp/http-echo
         imagePullPolicy: IfNotPresent
         args:
-          - "-text=maracuja"      
+          - "-text=maracuja"
         ports:
           - containerPort: 5678
 ---

@@ -1,14 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: go-live
+  name: api
+  namespace: argocd  
 spec:
   destination:
     name: ''
     namespace: app
     server: 'https://kubernetes.default.svc'
   source:
-    path: .
+    path: app/api/deploy
     repoURL: 'https://github.com/uknbr/go-live.git'
     targetRevision: main
-  project: default
+  syncPolicy:
+    automated: {}
+  project: playground
