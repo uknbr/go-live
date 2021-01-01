@@ -1,11 +1,11 @@
 ## Playground
 
 ### Components
-- WSL2
-- Docker
-- Kind
-- Simple API (Golang)
-- Vegeta
+- [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+- [Docker](https://www.docker.com/products/docker-desktop)
+- [Kind](https://kind.sigs.k8s.io/)
+- [Simple API](https://golang.org/)
+- [Vegeta](https://github.com/tsenart/vegeta)
 
 ### Getting started
 1. Clone repository
