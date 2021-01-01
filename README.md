@@ -19,13 +19,14 @@
 
 ```bash
 cd app/api && make build
-kind --name local load docker-image localhost/go-live:0.0.4
+kind --name local load docker-image localhost/go-live:0.0.5
 ```
 
 ### CD
 
 Simple CD with [ArgoCD](https://argoproj.github.io/argo-cd/)
 
+Setup
 
 ```bash
 # Create namespace
@@ -34,7 +35,18 @@ kubectl create namespace argocd
 # Deploy Argo manifests
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-# Disable auth
+# Wait for deployment
+kubectl wait --namespace argocd --for=condition=Ready pod --selector=app.kubernetes.io/name=argocd-repo-server --timeout=180s
+````
+
+Security
+
+```bash
+# Credentials
+export argo_user=admin
+export argo_pass=$(kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2)
+
+# Disable Web auth (optional)
 kubectl patch deploy argocd-server -n argocd -p '[{"op": "add", "path": "/spec/template/spec/containers/0/command/-", "value": "--disable-auth"}]' --type json
 
 # Forward port
@@ -45,15 +57,14 @@ kubectl port-forward svc/argocd-server -n argocd 9999:80
 
 ```terminal
 kubectl apply -f cd/proj.yml
-kubectl apply -f cd/app-api.yml
 kubectl apply -f cd/app-echo.yml
+kubectl apply -f cd/app-api.yml
 ```
 
 - CLI
 
 ```terminal
-argocd login localhost:9999
-argocd cluster add kind-local
+argocd login localhost:9999 --insecure --username ${argo_user} --password ${argo_pass}
 argocd app list
 argocd app get api
 argocd app sync api

@@ -10,7 +10,7 @@ help: ## Display help message
 
 .DEFAULT_GOAL := help
 
-run: ## Run Python script
+run: ## Run Go main
 	go run main.go
 
 build: ## Build the container

@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xibiu
+  labels:
+    app: xibiu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: xibiu
+  template:
+    metadata:
+      labels:
+        app: xibiu
+    spec:
+      containers:
+      - name: xibiu
+        image: hashicorp/http-echo
+        imagePullPolicy: IfNotPresent
+        args:
+          - "-text=xibiu"
+        ports:
+          - containerPort: 5678
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: xibiu
+  name: xibiu
+spec:
+  ports:
+  - port: 5678
+    protocol: TCP
+    targetPort: 5678
+  selector:
+    app: xibiu
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: xibiu
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - backend:
+          serviceName: xibiu
+          servicePort: 5678
+        path: /xibiu

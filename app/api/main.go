@@ -8,6 +8,12 @@ import (
     "os"
 )
 
+func root(w http.ResponseWriter, r *http.Request) {
+    w.WriteHeader(http.StatusOK)
+    msg := os.Getenv("APP_MESSAGE")
+    w.Write([]byte(msg))
+}
+
 func ping(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     w.WriteHeader(http.StatusOK)
@@ -17,7 +23,8 @@ func ping(w http.ResponseWriter, r *http.Request) {
 func text(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     w.WriteHeader(http.StatusOK)
-    w.Write([]byte(`{"message": "hello, world!"}`))
+    msg := os.Getenv("APP_TEXT")
+    w.Write([]byte(fmt.Sprintf(`{"message": %s}`, msg)))
 }
 
 func info(w http.ResponseWriter, r *http.Request) {
@@ -40,6 +47,7 @@ func main() {
 
     // API
     api := r.PathPrefix("/api/v1").Subrouter()
+    api.HandleFunc("/", root).Methods(http.MethodGet)
     api.HandleFunc("/ping", ping).Methods(http.MethodGet)
     api.HandleFunc("/text", text).Methods(http.MethodGet)
     api.HandleFunc("/info", info).Methods(http.MethodGet)

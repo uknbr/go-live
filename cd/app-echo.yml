@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: echo
-  namespace: argocd  
+  namespace: argocd
 spec:
   destination:
     name: ''
@@ -14,4 +14,6 @@ spec:
     targetRevision: main
   syncPolicy:
     automated: {}
+    syncOptions:
+    - CreateNamespace=true
   project: playground

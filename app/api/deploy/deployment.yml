@@ -16,7 +16,28 @@ spec:
     spec:
       containers:
       - name: go-live
-        image: localhost/go-live:0.0.4
+        env:
+          - name: APP_TEXT
+            valueFrom:
+              configMapKeyRef:
+                key: text
+                name: data-config
+          - name: APP_MESSAGE
+            valueFrom:
+              configMapKeyRef:
+                key: message
+                name: data-config
+        image: localhost/go-live:0.0.5
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 8080
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
