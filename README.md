@@ -19,7 +19,7 @@
 
 ```bash
 cd app/api && make build
-kind --name local load docker-image localhost/go-live:0.0.5
+kind --name local load docker-image localhost/go-live:0.0.6
 ```
 
 ### CD

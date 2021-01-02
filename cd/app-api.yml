@@ -9,7 +9,7 @@ spec:
     namespace: app
     server: 'https://kubernetes.default.svc'
   source:
-    path: app/api/deploy
+    path: app/deploy
     repoURL: 'https://github.com/uknbr/go-live.git'
     targetRevision: main
   syncPolicy:
