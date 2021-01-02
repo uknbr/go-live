@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: go-live/frontend:0.0.5
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 10
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: frontend
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - backend:
+          serviceName: frontend
+          servicePort: 80
+        path: /go-live(/|$)(.*)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: frontend
+  name: frontend
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: frontend
+  sessionAffinity: None
+  type: ClusterIP

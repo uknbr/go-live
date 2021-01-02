@@ -5,5 +5,5 @@ xmlhttp.onreadystatechange = function() {
     document.getElementById("info").innerHTML = `Host: ${api_info.hostname}`
   }
 };
-xmlhttp.open("GET", "http://localhost:8080/api/v1/info", true);
+xmlhttp.open("GET", "http://localhost/api/v1/info", true);
 xmlhttp.send();

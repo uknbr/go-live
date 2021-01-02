@@ -14,10 +14,10 @@ run: ## Run Go main
 	go run main.go
 
 build: ## Build the container
-	docker image build --force-rm --network host -t localhost/$(APP_IMAGE):$(APP_VERSION) .
+	docker image build --force-rm --network host -t go-live/$(APP_IMAGE):$(APP_VERSION) .
 
 start: ## Run container based on `config.env`
-	docker container run -dti --env-file=./$(cnf) --name=$(APP_IMAGE) --label app=go --restart=always --publish $(APP_PORT):8080 localhost/$(APP_IMAGE):$(APP_VERSION)
+	docker container run -dti --env-file=./$(cnf) --name=$(APP_IMAGE) --label app=backend --restart=always --publish $(APP_PORT):8080 go-live/$(APP_IMAGE):$(APP_VERSION)
 
 stop: ## Stop and remove a running container
 	docker container rm -f $(APP_IMAGE) 2>/dev/null || true

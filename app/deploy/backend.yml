@@ -1,0 +1,84 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+data:
+  text: hello, all!
+  message: Welcome to Go API
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        env:
+          - name: APP_TEXT
+            valueFrom:
+              configMapKeyRef:
+                key: text
+                name: backend-config
+          - name: APP_MESSAGE
+            valueFrom:
+              configMapKeyRef:
+                key: message
+                name: backend-config
+        image: go-live/backend:0.0.6
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /api/v1/ping
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /api/v1/ping
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: backend
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - backend:
+          serviceName: backend
+          servicePort: 8080
+        path: /
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: backend
+  name: backend
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: backend
+  sessionAffinity: None
+  type: ClusterIP

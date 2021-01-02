@@ -6,7 +6,7 @@ metadata:
 spec:
   destination:
     name: ''
-    namespace: app
+    namespace: go-live
     server: 'https://kubernetes.default.svc'
   source:
     path: app/deploy
@@ -14,4 +14,6 @@ spec:
     targetRevision: main
   syncPolicy:
     automated: {}
+    syncOptions:
+    - CreateNamespace=true
   project: playground

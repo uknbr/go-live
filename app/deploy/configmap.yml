@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: data-config
-data:
-  text: hello, all!
-  message: Welcome to Go API

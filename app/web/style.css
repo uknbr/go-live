@@ -1,0 +1,13 @@
+body {
+	background-color: powderblue;
+}
+h2 {
+	color: blue;
+}
+p {
+	background-color:navy;
+	color: white;
+	text-indent: 25px;
+	font-family:courier;
+	font-size:115%
+}

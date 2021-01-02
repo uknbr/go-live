@@ -15,11 +15,10 @@
 ./cluster.sh
 ```
 
-3. Build & Load image
+3. Build & Load images
 
 ```bash
-cd app/api && make build
-kind --name local load docker-image localhost/go-live:0.0.6
+./build.sh
 ```
 
 ### CD
