@@ -42,6 +42,7 @@ Security
 
 ```bash
 # Credentials
+export argo_port=8888
 export argo_user=admin
 export argo_pass=$(kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2)
 
@@ -49,7 +50,7 @@ export argo_pass=$(kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-s
 kubectl patch deploy argocd-server -n argocd -p '[{"op": "add", "path": "/spec/template/spec/containers/0/command/-", "value": "--disable-auth"}]' --type json
 
 # Forward port
-kubectl port-forward svc/argocd-server -n argocd 9999:80
+kubectl port-forward svc/argocd-server -n argocd ${argo_port}:80
 ````
 
 - Declarative
@@ -63,7 +64,7 @@ kubectl apply -f cd/app-api.yml
 - CLI
 
 ```terminal
-argocd login localhost:9999 --insecure --username ${argo_user} --password ${argo_pass}
+argocd login localhost:${argo_port} --insecure --username ${argo_user} --password ${argo_pass}
 argocd app list
 argocd app get api
 argocd app sync api
