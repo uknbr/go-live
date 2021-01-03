@@ -16,22 +16,8 @@ run: ## Run Go main
 build: ## Build the container
 	docker image build --force-rm --network host -t go-live/$(APP_IMAGE):$(APP_VERSION) .
 
-start: ## Run container based on `config.env`
-	docker container run -dti --env-file=./$(cnf) --name=$(APP_IMAGE) --label app=backend --restart=always --publish $(APP_PORT):8080 go-live/$(APP_IMAGE):$(APP_VERSION)
-
-stop: ## Stop and remove a running container
+all: ## Stop, Build, Start and Status
 	docker container rm -f $(APP_IMAGE) 2>/dev/null || true
-
-status: ## Check status of container
+	docker image build --force-rm --network host -t go-live/$(APP_IMAGE):$(APP_VERSION) .
+	docker container run -dti --env-file=./$(cnf) --name=$(APP_IMAGE) --label app=backend --restart=always --publish $(APP_PORT):8080 go-live/$(APP_IMAGE):$(APP_VERSION)
 	docker container ls -f name=$(APP_IMAGE)
-
-sh: ## Access running container
-	docker exec -ti $(APP_IMAGE) sh
-
-log: ## Follow the logs
-	docker logs -f $(APP_IMAGE)
-
-restart: stop build start status ## Alias to stop, build, start and status
-
-version: ## Output the current version
-	@echo "$(APP_IMAGE):$(APP_VERSION)"
