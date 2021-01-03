@@ -55,15 +55,20 @@ kubectl port-forward svc/argocd-server -n argocd ${argo_port}:80
 
 - Declarative
 
-```terminal
+```bash
+# Apply manifests
 kubectl apply -f cd/proj.yml
 kubectl apply -f cd/app-echo.yml
-kubectl apply -f cd/app-api.yml
+kubectl apply -f cd/app-live.yml
+
+# List created resources
+kubectl -n argocd get AppProjects
+kubectl -n argocd get Applications
 ```
 
 - CLI
 
-```terminal
+```bash
 argocd login localhost:${argo_port} --insecure --username ${argo_user} --password ${argo_pass}
 argocd app list
 argocd app get api
