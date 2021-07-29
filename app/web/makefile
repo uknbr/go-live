@@ -1,4 +1,3 @@
-# Change the default config with `make cnf="custom.env" build`
 cnf ?= config.env
 include $(cnf)
 export $(shell sed 's/=.*//' $(cnf))
