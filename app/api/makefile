@@ -13,9 +13,6 @@ help: ## Display help message
 run: ## Run Go main
 	go run main.go
 
-build: ## Build the container
-	docker image build --force-rm --network host -t go-live/$(APP_IMAGE):$(APP_VERSION) .
-
 all: ## Stop, Build, Start and Status
 	docker container rm -f $(APP_IMAGE) 2>/dev/null || true
 	docker image build --force-rm --network host -t go-live/$(APP_IMAGE):$(APP_VERSION) .
